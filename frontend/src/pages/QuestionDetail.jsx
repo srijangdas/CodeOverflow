@@ -42,7 +42,7 @@ export default function QuestionDetail() {
     try {
       const res = await axios.post(
         `/api/answers/${id}`,
-        { content: newAnswer, user },
+        { content: newAnswer },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,6 +55,32 @@ export default function QuestionDetail() {
     } catch (err) {
       console.error("Failed to post answer:", err);
       alert("Something went wrong.");
+    }
+  };
+
+  const handleVote = async (answerId, voteType) => {
+    if (!user || !token) {
+      alert("Please log in to vote.");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `/api/votes/${answerId}`,
+        { vote_type: voteType },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setAnswers((prev) =>
+        prev.map((ans) => (ans.id === answerId ? res.data : ans)),
+      );
+    } catch (err) {
+      console.error("Failed to vote:", err);
+      alert("Failed to vote on answer.");
     }
   };
 
@@ -86,6 +112,21 @@ export default function QuestionDetail() {
           ) : (
             answers.map((ans) => (
               <div key={ans.id} className="flex gap-4 mb-6 items-start">
+                <div className="flex flex-col items-center gap-2">
+                  <button
+                    className="btn btn-sm btn-ghost text-xl"
+                    onClick={() => handleVote(ans.id, 1)}
+                  >
+                    ⬆️
+                  </button>
+                  <span className="font-bold text-lg">{ans.votes}</span>
+                  <button
+                    className="btn btn-sm btn-ghost text-xl"
+                    onClick={() => handleVote(ans.id, -1)}
+                  >
+                    ⬇️
+                  </button>
+                </div>
                 <div className="bg-base-100 border rounded p-4 shadow w-full">
                   <div dangerouslySetInnerHTML={{ __html: ans.content }} />
                   <div className="text-sm mt-2 text-gray-500">
@@ -95,9 +136,6 @@ export default function QuestionDetail() {
                         (Accepted)
                       </span>
                     )}
-                  </div>
-                  <div className="text-sm mt-1 font-semibold">
-                    ⬆ {ans.votes}
                   </div>
                 </div>
               </div>
