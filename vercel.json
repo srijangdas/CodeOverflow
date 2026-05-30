@@ -1,16 +1,20 @@
 {
-  "version": 2,
+  "version": 3,
   "services": {
     "frontend": {
       "root": "frontend",
-      "framework": "vite",
-      "routePrefix": "/"
+      "framework": "vite"
     },
     "backend": {
       "root": "backend",
       "runtime": "nodejs",
-      "entrypoint": "src/index.js",
-      "routePrefix": "/api"
+      "entrypoint": "src/index.js"
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/src/index.js"
+    }
+  ]
 }
