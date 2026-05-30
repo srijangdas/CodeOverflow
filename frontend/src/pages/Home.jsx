@@ -51,7 +51,11 @@ export default function Home() {
             </div>
 
             <p className="text-gray-600 text-sm">
-              {q.description.slice(0, 120)}...
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: q.description.slice(0, 120),
+                }}
+              />
             </p>
 
             <div className="flex gap-2 flex-wrap pt-2">

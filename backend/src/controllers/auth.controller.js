@@ -8,21 +8,21 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const existingUserEmail = await db.query(
       "SELECT * FROM users WHERE email = $1",
-      [email]
+      [email],
     );
     if (existingUserEmail.rows.length)
       return res.status(400).json({ message: "Email already exists" });
 
     const existingUsername = await db.query(
       "SELECT * FROM users WHERE username = $1",
-      [username]
+      [username],
     );
     if (existingUsername.rows.length)
       return res.status(400).json({ message: "Username already exists" });
 
     const result = await db.query(
       "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
-      [username, email, hashedPassword]
+      [username, email, hashedPassword],
     );
 
     const token = generateToken(result.rows[0].id);

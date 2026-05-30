@@ -31,7 +31,6 @@ export const getAllQuestions = async (req, res) => {
       ORDER BY q.created_at DESC
   `);
   res.json(result.rows);
-  console.log(result.rows);
 };
 
 export const getQuestionById = async (req, res) => {
@@ -51,7 +50,7 @@ export const getQuestionById = async (req, res) => {
       JOIN users u ON u.id = q.author_id
       WHERE q.id = $1
     `,
-      [id]
+      [id],
     );
 
     const answers = await db.query(
@@ -65,7 +64,7 @@ export const getQuestionById = async (req, res) => {
       GROUP BY a.id, u.username
       ORDER BY a.is_accepted DESC, a.created_at ASC
     `,
-      [id]
+      [id],
     );
 
     res.json({
@@ -79,13 +78,12 @@ export const getQuestionById = async (req, res) => {
 };
 
 export const createQuestion = async (req, res) => {
-  const { title, description, tags } = req.body;
-  const userId = req.user.id;
+  const { title, description, tags, userId } = req.body;
 
   console.log(userId);
   const question = await db.query(
     "INSERT INTO questions (title, description, author_id) VALUES ($1, $2, $3) RETURNING *",
-    [title, description, userId]
+    [title, description, userId],
   );
 
   const qid = question.rows[0].id;
@@ -100,13 +98,13 @@ export const createQuestion = async (req, res) => {
     } else {
       const inserted = await db.query(
         "INSERT INTO tags (name) VALUES ($1) RETURNING id",
-        [tagName]
+        [tagName],
       );
       tagId = inserted.rows[0].id;
     }
     await db.query(
       "INSERT INTO question_tags (question_id, tag_id) VALUES ($1, $2)",
-      [qid, tagId]
+      [qid, tagId],
     );
   }
 

@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("token");
     localStorage.removeItem("stackit-user");
+    localStorage.removeItem("stackit-userId");
   };
 
   useEffect(() => {
@@ -30,7 +31,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider
+      value={{ token, user, userId: user?.id, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

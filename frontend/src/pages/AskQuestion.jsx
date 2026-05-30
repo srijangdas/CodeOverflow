@@ -9,20 +9,18 @@ export default function AskQuestion() {
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState([]);
   const [description, setDescription] = useState("");
-  const { user, token } = useAuth();
-  const [userID, setUserID] = useState("");
+  const { token, userId } = useAuth();
   const navigate = useNavigate();
 
   const availableTags = ["React", "JWT", "Tailwind", "Node.js"];
 
   const handleTagToggle = (tag) => {
     setTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
   };
 
   const handleSubmit = async (e) => {
-    setUserID(user.username);
     e.preventDefault();
 
     if (!token) {
@@ -30,21 +28,22 @@ export default function AskQuestion() {
       return;
     }
 
-    console.log({ title, tags, description });
+    console.log(userId);
     try {
-      const res = await axios.post(
+      await axios.post(
         "http://localhost:5030/api/questions",
         {
           title,
           tags,
           description,
+          userId,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       navigate("/");

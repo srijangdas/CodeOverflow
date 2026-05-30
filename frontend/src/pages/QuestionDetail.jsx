@@ -18,7 +18,7 @@ export default function QuestionDetail() {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5030/api/questions/${id}`
+          `http://localhost:5030/api/questions/${id}`,
         );
         setQuestion(res.data.question);
         setAnswers(res.data.answers);
@@ -44,12 +44,12 @@ export default function QuestionDetail() {
     try {
       const res = await axios.post(
         `http://localhost:5030/api/answers/${id}`,
-        { content: newAnswer },
+        { content: newAnswer, user },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       setAnswers((prev) => [res.data, ...prev]);
