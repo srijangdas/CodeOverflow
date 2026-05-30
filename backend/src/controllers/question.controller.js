@@ -55,7 +55,14 @@ export const getQuestionById = async (req, res) => {
 
     const answers = await db.query(
       `
-      SELECT a.*, u.username AS author, 
+      SELECT 
+        a.id,
+        a.content,
+        a.question_id,
+        a.author_id,
+        a.is_accepted,
+        a.created_at,
+        u.username AS author, 
         COALESCE(SUM(CASE WHEN v.vote_type = 1 THEN 1 WHEN v.vote_type = -1 THEN -1 ELSE 0 END), 0) AS votes
       FROM answers a
       JOIN users u ON u.id = a.author_id
