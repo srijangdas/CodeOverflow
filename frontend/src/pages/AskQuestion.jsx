@@ -31,7 +31,7 @@ export default function AskQuestion() {
     console.log(userId);
     try {
       await axios.post(
-        "http://localhost:5030/api/questions",
+        "/api/questions",
         {
           title,
           tags,

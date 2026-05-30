@@ -23,7 +23,11 @@ app.use("/api/users", userRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/admin", adminRoutes);
 
-const PORT = process.env.SERVER_PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);
+export default app;
+
+if (!process.env.VERCEL) {
+  const PORT = process.env.SERVER_PORT || 5000;
+  app.listen(PORT, () =>
+    console.log(`Server running on http://localhost:${PORT}`),
+  );
+}

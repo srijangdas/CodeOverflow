@@ -17,9 +17,7 @@ export default function QuestionDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5030/api/questions/${id}`,
-        );
+        const res = await axios.get(`/api/questions/${id}`);
         setQuestion(res.data.question);
         setAnswers(res.data.answers);
       } catch (err) {
@@ -43,7 +41,7 @@ export default function QuestionDetail() {
 
     try {
       const res = await axios.post(
-        `http://localhost:5030/api/answers/${id}`,
+        `/api/answers/${id}`,
         { content: newAnswer, user },
         {
           headers: {

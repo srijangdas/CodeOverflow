@@ -9,7 +9,7 @@ export default function Home() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await axios.get("http://localhost:5030/api/questions");
+        const res = await axios.get("/api/questions");
         setQuestions(res.data);
         console.log(res.data);
       } catch (err) {

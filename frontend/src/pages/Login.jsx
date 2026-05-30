@@ -15,10 +15,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:5030/api/auth/login",
-        form
-      );
+      const res = await axios.post("/api/auth/login", form);
       login(res.data.token, res.data.user);
       navigate("/");
     } catch (err) {
@@ -38,7 +35,10 @@ export default function Login() {
 
         {/* Email Field */}
         <div className="mb-4">
-          <label htmlFor="email" className="block mb-1 text-sm text-base-content">
+          <label
+            htmlFor="email"
+            className="block mb-1 text-sm text-base-content"
+          >
             Email
           </label>
           <input
@@ -54,7 +54,10 @@ export default function Login() {
 
         {/* Password Field */}
         <div className="mb-6">
-          <label htmlFor="password" className="block mb-1 text-sm text-base-content">
+          <label
+            htmlFor="password"
+            className="block mb-1 text-sm text-base-content"
+          >
             Password
           </label>
           <input
@@ -69,10 +72,7 @@ export default function Login() {
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="btn btn-primary w-full"
-        >
+        <button type="submit" className="btn btn-primary w-full">
           Login
         </button>
 
